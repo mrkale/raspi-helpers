@@ -1,0 +1,55 @@
+#
+# This script is called as a last part of the user's login
+# procedure within the file .profile
+# 
+
+#
+#  System
+#
+echo
+cat /etc/os-release | grep PRETTY_NAME
+# Show possible distribution versions
+[ -f /etc/debian_version ] && echo "Debian: $(cat /etc/debian_version)"
+[ -f /etc/pipaos_version ] && echo "PipaOS: $(cat /etc/pipaos_version)"
+[ -f /etc/pibang-release ] && echo "PiBang: $(cat /etc/pibang-release)"
+
+# Uptime and users
+echo
+w
+echo
+echo "Current temperature = "$(awk '{printf "%3.1f°C\n", $1/1000}' /sys/class/thermal/thermal_zone0/temp)
+echo "Current frequency   = "$(sudo awk '{printf "%3.0f MHz\n", $1/1000}' /sys/devices/system/cpu/cpu*/cpufreq/cpuinfo_cur_freq)
+echo "Last boot           = "$(cat /tmp/boot_time.inf)
+#
+# Networking information
+#
+echo
+/sbin/ifconfig | grep HWaddr # MAC address of the computer
+echo "IP address: $(hostname -I)"
+printf "SSH Key Fingerprint: "
+if [ -f "$HOME/.ssh/id_rsa.pub" ]; then
+	echo $(ssh-keygen -l -f $HOME/.ssh/id_rsa.pub)
+else
+	echo "n/a"
+fi
+
+#
+# Show technical parameters of the SD card
+#
+echo
+pushd $(pwd) >/dev/null
+cd /sys/class/mmc_host/mmc?/mmc?:*
+echo "SD Card: man=$(cat manfid) oem=$(cat oemid) name=$(cat name) hwrev=$(cat hwrev) fwrev=$(cat fwrev) date=$(cat date)"
+popd >/dev/null
+
+#
+# Disk usage without temporary and external partitions
+#
+echo
+df -h -l -T --total -x tmpfs -x udev -x rootfs
+
+#
+# Partitions
+#
+sudo fdisk -l
+echo
