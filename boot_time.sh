@@ -1,0 +1,1 @@
+/usr/local/sbin/boot_time.sh
