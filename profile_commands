@@ -3,6 +3,9 @@
 # procedure within the file .profile
 # 
 
+# Set correct timezone. For determining it use command 'tzselect'.
+TZ='Europe/Bratislava'; export TZ
+
 #
 #  System
 #
@@ -19,7 +22,7 @@ w
 echo
 echo "Current temperature = "$(awk '{printf "%3.1f°C\n", $1/1000}' /sys/class/thermal/thermal_zone0/temp)
 echo "Current frequency   = "$(sudo awk '{printf "%3.0f MHz\n", $1/1000}' /sys/devices/system/cpu/cpu*/cpufreq/cpuinfo_cur_freq)
-echo "Last boot           = "$(date --date="@$(sudo tail -1 /var/log/boot_time.log)" +"%d.%m.%Y %H:%M")
+#echo "Last boot           = "$(date --date="@$(sudo tail -1 /var/log/boot_time.log)" +"%d.%m.%Y %H:%M")
 #
 # Networking information
 #
