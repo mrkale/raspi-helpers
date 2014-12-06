@@ -22,7 +22,8 @@ w
 echo
 echo "Current temperature = "$(awk '{printf "%3.1f°C\n", $1/1000}' /sys/class/thermal/thermal_zone0/temp)
 echo "Current frequency   = "$(sudo awk '{printf "%3.0f MHz\n", $1/1000}' /sys/devices/system/cpu/cpu*/cpufreq/cpuinfo_cur_freq)
-#echo "Last boot           = "$(date --date="@$(sudo tail -1 /var/log/boot_time.log)" +"%d.%m.%Y %H:%M")
+UPtime=$(cat /proc/uptime)
+echo "Last boot           = "$(date -d @$(( $(date +%s) - ${UPtime%%.*} )) +"%d.%m.%Y %H:%M")
 #
 # Networking information
 #
