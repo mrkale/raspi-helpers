@@ -3,9 +3,6 @@
 # procedure within the file .profile
 # 
 
-# Set correct timezone. For determining it use command 'tzselect'.
-TZ='Europe/Bratislava'; export TZ
-
 #
 #  System
 #
