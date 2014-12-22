@@ -21,15 +21,10 @@ do
 	# Compose symbolic link name
 	link="$(basename "$script")"
 	link="${link%.*}"
-	# Remove obsolete symbolic link
-	if [ -h "$link" ]
-	then
-		rm "$link"
-	fi
 	# Create symbolic link if such regular file does not exist
 	if [ ! -f "$link" ]
 	then
-		ln -s "$script" "$link"
+		ln -fs "$script" "$link"
 		echo -e "\e[1;33mSymbolic link \e[0;36m$link\e[1;33m -> \e[0;32m$script\e[0m"
 	fi
 done

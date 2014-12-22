@@ -16,18 +16,18 @@ cat /etc/os-release | grep PRETTY_NAME
 # Uptime and users
 echo
 w
+
+# Operational parameters
 echo
-echo "Current temperature = "$(awk '{printf "%3.1f°C\n", $1/1000}' /sys/class/thermal/thermal_zone0/temp)
-echo "Current frequency   = "$(sudo awk '{printf "%3.0f MHz\n", $1/1000}' /sys/devices/system/cpu/cpu*/cpufreq/cpuinfo_cur_freq)
+echo -e "Current temperature = \e[35m"$(awk '{printf "%3.1f°C\n", $1/1000}' /sys/class/thermal/thermal_zone0/temp)"\e[0m"
+echo -e "Current frequency   = \e[36m"$(sudo awk '{printf "%3.0f MHz\n", $1/1000}' /sys/devices/system/cpu/cpu*/cpufreq/cpuinfo_cur_freq)"\e[0m"
 UPtime=$(cat /proc/uptime)
-echo "Last boot           = "$(date -d @$(( $(date +%s) - ${UPtime%%.*} )) +"%d.%m.%Y %H:%M")
+echo -e "Last boot           = \e[33m"$(date -d @$(( $(date +%s) - ${UPtime%%.*} )) +"%d.%m.%Y %H:%M")"\e[0m"
+echo -e "IP address          = \e[32m"$(hostname -I)"\e[0m"
+
 #
-# Networking information
-#
-echo
-/sbin/ifconfig | grep HWaddr # MAC address of the computer
-echo "IP address: $(hostname -I)"
-printf "SSH Key Fingerprint: "
+# SSH Key
+printf "SSH Key Fingerprint = "
 if [ -f "$HOME/.ssh/id_rsa.pub" ]; then
 	echo $(ssh-keygen -l -f $HOME/.ssh/id_rsa.pub)
 else
@@ -36,12 +36,15 @@ fi
 
 #
 # Show technical parameters of the SD card
-#
-echo
 pushd $(pwd) >/dev/null
 cd /sys/class/mmc_host/mmc?/mmc?:*
-echo "SD Card: man=$(cat manfid) oem=$(cat oemid) name=$(cat name) hwrev=$(cat hwrev) fwrev=$(cat fwrev) date=$(cat date)"
+echo "SD Card             = man:$(cat manfid), oem:$(cat oemid), name:$(cat name), hwrev:$(cat hwrev), fwrev:$(cat fwrev), date:$(cat date)"
 popd >/dev/null
+
+#
+# Intefaces
+echo
+/sbin/ifconfig | grep HWaddr
 
 #
 # Disk usage without temporary and external partitions
