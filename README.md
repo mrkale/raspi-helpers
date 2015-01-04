@@ -20,3 +20,8 @@ profile_commands
 =====
 Additional activities at login the user to system. It can be considered
 as a extension of a MOTD.
+
+ds18b20
+=====
+Script displays list of DS18B20 temperature sensors' addresses and values connected
+to the system.
