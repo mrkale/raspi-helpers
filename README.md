@@ -25,3 +25,7 @@ ds18b20
 =====
 Script displays list of DS18B20 temperature sensors' addresses and values connected
 to the system.
+
+info
+=====
+Script displays content of all files with extension '.inf' in the folder '/tmp'.
