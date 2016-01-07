@@ -4,8 +4,10 @@ alias gs='git status -sb'
 alias sudo='sudo '
 
 # ls aliases
-alias ll='ls -l'
-alias lll='ls -auxl'
-alias la='ls -A'
 alias l='ls -CF'
+alias ll='ls -l'
+alias lll='ls -ali'
+alias llll='ls -auxli'
+alias la='ls -A'
+
 alias sl='ls -la|grep ^lr'
